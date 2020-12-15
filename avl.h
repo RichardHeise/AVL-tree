@@ -1,30 +1,32 @@
 #ifndef __AVL__
 #define __AVL__
 
-/* Definição da estrutura */
+/*structure definition*/
 typedef struct s_node 
 {
-    int bf; // Balance Factor - Fator de balanceamento
-    int key; // chave
-    struct s_node *left; // esquerda
-    struct s_node *right; // direita
+    int bf; /* Balance Factor*/
+    int key;
+    struct s_node *left;
+    struct s_node *right;
 } t_node;
 
-/** Função para criar um nodo
- *  Recebe a chave do nodo com valor inteiro 
- */ 
+/** function to create a node
+ *  receives an int node key
+ *  */ 
 t_node *createNode(int key);
 
-/** Insere uma chave inteira em um nodo
- *  Recebe um ponteiro para nodo e uma chave inteira
+/** inserts a int key into a node
+ *  receives a node pointer and an int key
  */
 t_node *insertNode(t_node *p_node, int key);
 
-/** Função para escrever uma árvore em pré-ordem */
+/** pre order print function */
 void preOrder(t_node *p_node);
 
-/** Função para escrever uma árvore em ordem */
+/** in order print function*/
 void inOrder(t_node *p_node);
 
-/** Função para escrever uma árvore em pós-ordem */
+/** pos order print function */
 void postOrder(t_node *p_node);
+
+#endif
