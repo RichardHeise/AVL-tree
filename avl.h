@@ -29,4 +29,10 @@ void inOrder(t_node *p_node);
 /** pos order print function */
 void postOrder(t_node *p_node);
 
+/* right rotates a node*/
+t_node *rightRotation(t_node *node);
+
+/* left rotates a node*/
+t_node *leftRotation(t_node *node);
+
 #endif

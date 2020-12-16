@@ -61,3 +61,24 @@ void postOrder(t_node *p_node){
 	printf("%d ", p_node->key);
 
 }
+
+t_node *rightRotation(t_node *node){
+
+	t_node *aux = node->left;
+	t_node *aux2 = node->left->right; /*or simply aux->right*/
+	node->left->right = node;
+	node->left=aux2;
+
+	return aux;
+}
+
+t_node *leftRotation(t_node *node){
+
+	t_node *aux = node->right;
+	t_node *aux2 = node->right->left; /*or simply aux->left*/
+
+	node->right->left = node;
+	node->right = aux2;
+
+	return aux;
+}

@@ -7,17 +7,19 @@ int main(){
 	t_node *root=NULL;
 
 	root=createNode(0);
-	insertNode(root, -2);
+	insertNode(root, -8);
 	insertNode(root, 3);
-	insertNode(root, -1);
-	insertNode(root, 7);
+	insertNode(root, 1);
+	insertNode(root, 4);
 
-	preOrder(root);
-	printf("\n");
 	inOrder(root);
 	printf("\n");
-	postOrder(root);
+
+	printf("leftrotating the node...\n");
+	root = leftRotation(root);
+	inOrder(root);
 	printf("\n");
+
 
 	return 0;
 }
