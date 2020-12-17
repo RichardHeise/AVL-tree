@@ -2,10 +2,27 @@
 #include<stdlib.h>
 #include"avl.h"
 
+static int height(t_node *p_node) {
+	if (!p_node) return 0;
+	return p_node->bf;
+}
+
+static int max(int a, int b) {
+	if (a > b) {
+		return a;
+	}
+
+	return b;
+}
+static int readBalance(t_node *p_node) {
+	if (!p_node) return 0;
+	return height(p_node->left) - height(p_node->right);
+}
+
 t_node *createNode(int key){
 
 	t_node *node;
-	node = malloc ( sizeof(t_node));
+	node = malloc (sizeof(t_node));
 
 	if(!node){
 		perror("error: could not allocate node properly");
@@ -23,14 +40,22 @@ t_node *createNode(int key){
 /*generic function*/
 t_node *insertNode(t_node *p_node, int key){
 
-	if(!p_node)
+	if (!p_node)
 		return(createNode(key));
 
-	if(key < p_node->key)
+	if (key < p_node->key)
 		p_node->left = insertNode(p_node->left, key);
-	else
+	else if (key > p_node->key)
 		p_node->right = insertNode(p_node->right, key);
+	else
+		return p_node;
+
+	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
+
+	int currentBalance = readBalance(p_node);
+
 	return p_node;
+
 }
 
 void preOrder(t_node *p_node){
@@ -47,7 +72,8 @@ void inOrder(t_node *p_node){
 	if(!p_node)	
 		return;
 	inOrder(p_node->left);
-	printf("%d ", p_node->key);
+	printf("key: %d ", p_node->key);
+	printf("bf: %d ", p_node->bf);
 	inOrder(p_node->right);
 
 }
@@ -62,23 +88,29 @@ void postOrder(t_node *p_node){
 
 }
 
-t_node *rightRotation(t_node *node){
+t_node *rightRotation(t_node *p_node){
 
-	t_node *aux = node->left;
-	t_node *aux2 = node->left->right; /*or simply aux->right*/
-	node->left->right = node;
-	node->left=aux2;
+	t_node *aux =  p_node->left;
+	t_node *aux2 = p_node->left->right; /*or simply aux->right*/
+
+	p_node->left->right = p_node;
+	p_node->left=aux2;
+
+	p_node->bf = max(height(p_node->left), height(p_node->right));
 
 	return aux;
 }
 
-t_node *leftRotation(t_node *node){
+t_node *leftRotation(t_node *p_node){
 
-	t_node *aux = node->right;
-	t_node *aux2 = node->right->left; /*or simply aux->left*/
+	t_node *aux =  p_node->right;
+	t_node *aux2 = p_node->right->left; /*or simply aux->left*/
 
-	node->right->left = node;
-	node->right = aux2;
+	p_node->right->left = p_node;
+	p_node->right = aux2;
+
+
+	p_node->bf = max(height(p_node->left), height(p_node->right));
 
 	return aux;
 }
