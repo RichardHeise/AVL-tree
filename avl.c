@@ -2,11 +2,15 @@
 #include<stdlib.h>
 #include"avl.h"
 
+// Function to get a node's height
 static int height(t_node *p_node) {
+
+	// checks if node exists, if it doesn't it should return 0
 	if (!p_node) return 0;
 	return p_node->bf;
 }
 
+// Function to get max value between 2 ints
 static int max(int a, int b) {
 	if (a > b) {
 		return a;
@@ -14,13 +18,19 @@ static int max(int a, int b) {
 
 	return b;
 }
+
+// Function to get the balance of a given node
 static int readBalance(t_node *p_node) {
+
+	// Checks if node exists, if so them it applies 
+	// the difference between it's sons height
 	if (!p_node) return 0;
 	return height(p_node->left) - height(p_node->right);
 }
 
 t_node *createNode(int key){
 
+	// allocates a node 
 	t_node *node;
 	node = malloc (sizeof(t_node));
 
@@ -29,17 +39,18 @@ t_node *createNode(int key){
 		exit(-1);
 	}
 
+	// initialize values
 	node->left=NULL;
 	node->right=NULL;
-	node->bf=0;
+	node->bf=1;
 	node->key=key;
 
 	return node;
 }
 
-/*generic function*/
 t_node *insertNode(t_node *p_node, int key){
 
+	// Inserts a node 
 	if (!p_node)
 		return(createNode(key));
 
@@ -47,12 +58,35 @@ t_node *insertNode(t_node *p_node, int key){
 		p_node->left = insertNode(p_node->left, key);
 	else if (key > p_node->key)
 		p_node->right = insertNode(p_node->right, key);
-	else
+	else 
+		// we don't deal with duplicate key values
 		return p_node;
 
+
+	// recalculate current height
 	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
 
+
+	// now we test the rotation cases
 	int currentBalance = readBalance(p_node);
+
+	if (currentBalance > 1 && key < p_node->left->key) {
+		return rightRotation(p_node);
+	}
+
+	if (currentBalance < -1 && key > p_node->right->key) {
+		return leftRotation(p_node);
+	}
+
+	if (currentBalance < -1 && key < p_node->right->key) {
+		p_node->right = rightRotation(p_node->right);
+		return leftRotation(p_node);
+	}
+
+	if (currentBalance > 1 && key > p_node->right->key) {
+		p_node->left = leftRotation(p_node->left);
+		return rightRotation(p_node);
+	}
 
 	return p_node;
 
@@ -96,7 +130,8 @@ t_node *rightRotation(t_node *p_node){
 	p_node->left->right = p_node;
 	p_node->left=aux2;
 
-	p_node->bf = max(height(p_node->left), height(p_node->right));
+	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
+	aux->bf = 1 + max(height(aux->left), height(aux->right));
 
 	return aux;
 }
@@ -110,7 +145,8 @@ t_node *leftRotation(t_node *p_node){
 	p_node->right = aux2;
 
 
-	p_node->bf = max(height(p_node->left), height(p_node->right));
+	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
+	aux->bf = 1 + max(height(aux->left), height(aux->right));
 
 	return aux;
 }
