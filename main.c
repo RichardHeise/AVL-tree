@@ -6,25 +6,19 @@ int main(){
 
 	t_node *root=NULL;
 
-	root=createNode(0);
-	insertNode(root, -8);
-	insertNode(root, 10);
-	insertNode(root, -62);
-	insertNode(root, -63);
-	insertNode(root, -64);
-	insertNode(root, -65);
-	insertNode(root, -66);
-	insertNode(root, 3);
-	insertNode(root, 2);
+	root=createNode(50);
+	insertNode(root, 40);
+	insertNode(root, 70);
+	insertNode(root, 60);
+	insertNode(root, 80);
 
 	inOrder(root);
 	printf("\n");
 
-	//printf("leftrotating the node...\n");
-	//root = leftRotation(root);
-	//inOrder(root);
-	//printf("\n");
+	deleteNode(root, 50);
 
+	inOrder(root);
+	printf("\n");
 
 	return 0;
 }

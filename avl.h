@@ -20,6 +20,10 @@ t_node *createNode(int key);
  */
 t_node *insertNode(t_node *p_node, int key);
 
+int sucessor(t_node *p_node);
+
+t_node *deleteNode(t_node *p_node, int key);
+
 /** pre order print function */
 void preOrder(t_node *p_node);
 

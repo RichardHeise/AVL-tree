@@ -92,6 +92,39 @@ t_node *insertNode(t_node *p_node, int key){
 
 }
 
+int sucessor(t_node *p_node){
+
+	t_node *aux=p_node;
+	if(aux->left == NULL)
+		return aux->key;
+
+	while(aux->left->left != NULL)
+		aux=aux->left;
+
+	int key = aux->left->key;
+	free(aux->left);
+	aux->left=NULL;
+	return key;
+
+}
+
+t_node *deleteNode(t_node *p_node, int key){
+
+	if(p_node->key == key){
+
+		if(p_node->right != NULL)
+			p_node->key = sucessor(p_node->right);
+
+	}
+	else if(p_node->key > key)
+		deleteNode(p_node->left, key);
+	else
+		deleteNode(p_node->right, key);
+
+	return p_node;
+
+}
+
 void preOrder(t_node *p_node){
 
 	if(!p_node)	
@@ -106,8 +139,7 @@ void inOrder(t_node *p_node){
 	if(!p_node)	
 		return;
 	inOrder(p_node->left);
-	printf("key: %d ", p_node->key);
-	printf("bf: %d ", p_node->bf);
+	printf("%d ", p_node->key);
 	inOrder(p_node->right);
 
 }
