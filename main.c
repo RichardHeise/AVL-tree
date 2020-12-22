@@ -9,13 +9,19 @@ int main(){
 	root=createNode(50);
 	insertNode(root, 40);
 	insertNode(root, 70);
-	insertNode(root, 60);
-	insertNode(root, 80);
+	insertNode(root, 56);
+	insertNode(root, 55);
+	insertNode(root, 54);
+	insertNode(root, 53);
+	insertNode(root, 52);
 
 	inOrder(root);
 	printf("\n");
 
-	deleteNode(root, 50);
+	deleteNode(root, 52);
+	deleteNode(root, 53);
+	//deleteNode(root, 70);
+	//deleteNode(root, 40);
 
 	inOrder(root);
 	printf("\n");

@@ -110,16 +110,29 @@ int sucessor(t_node *p_node){
 
 t_node *deleteNode(t_node *p_node, int key){
 
+	if (!p_node)
+		return p_node;
+
 	if(p_node->key == key){
 
 		if(p_node->right != NULL)
 			p_node->key = sucessor(p_node->right);
 
+		else if (p_node->left == NULL)  {
+			p_node = NULL;
+		}
+		else 
+			*p_node = *p_node->left;
+
 	}
+
+	if (p_node == NULL)
+		return p_node;
+	
 	else if(p_node->key > key)
-		deleteNode(p_node->left, key);
+		p_node->left = deleteNode(p_node->left, key);
 	else
-		deleteNode(p_node->right, key);
+		p_node->right = deleteNode(p_node->right, key);
 
 	return p_node;
 
