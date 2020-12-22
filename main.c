@@ -1,30 +1,27 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include"avl.h"
 
 int main(){
 
-	t_node *root=NULL;
+	t_node *root;
+	char *buffer = malloc(50 * sizeof(char));
 
-	root=createNode(50);
-	insertNode(root, 40);
-	insertNode(root, 70);
-	insertNode(root, 56);
-	insertNode(root, 55);
-	insertNode(root, 54);
-	insertNode(root, 53);
-	insertNode(root, 52);
+	for(;fgets(buffer,50,stdin);){
 
-	inOrder(root);
-	printf("\n");
+		char *code=NULL;
+		code=strtok(buffer," ");	
+		int key = atoi( strtok(NULL, " "));
 
-	deleteNode(root, 52);
-	deleteNode(root, 53);
-	//deleteNode(root, 70);
-	//deleteNode(root, 40);
+		if(!strcmp("i",code))
+			root=insertNode(root,key);
+		else if (!strcmp("d",code))
+			root=deleteNode(root,key);
+		else
+			perror("invalid operation code\n");
 
-	inOrder(root);
-	printf("\n");
+	}
 
 	return 0;
 }

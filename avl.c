@@ -70,19 +70,23 @@ t_node *insertNode(t_node *p_node, int key){
 	// now we test the rotation cases
 	int currentBalance = readBalance(p_node);
 
+	//left left
 	if (currentBalance > 1 && key < p_node->left->key) {
 		return rightRotation(p_node);
 	}
 
+	//right right
 	if (currentBalance < -1 && key > p_node->right->key) {
 		return leftRotation(p_node);
 	}
 
+	//right left
 	if (currentBalance < -1 && key < p_node->right->key) {
 		p_node->right = rightRotation(p_node->right);
 		return leftRotation(p_node);
 	}
 
+	//left right
 	if (currentBalance > 1 && key > p_node->right->key) {
 		p_node->left = leftRotation(p_node->left);
 		return rightRotation(p_node);
@@ -115,24 +119,59 @@ t_node *deleteNode(t_node *p_node, int key){
 
 	if(p_node->key == key){
 
-		if(p_node->right != NULL)
+		if(p_node->right != NULL){
 			p_node->key = sucessor(p_node->right);
+			if(p_node->key == p_node->right->key){
+				free(p_node->right);
+				p_node->right = NULL;
+			}
 
-		else if (p_node->left == NULL)  {
-			p_node = NULL;
 		}
-		else 
+		else if (p_node->left == NULL)  {
+			free(p_node);
+			p_node = NULL;
+			return NULL;
+		}
+		else{
+			free(p_node);
 			*p_node = *p_node->left;
+		}
 
 	}
 
-	if (p_node == NULL)
-		return p_node;
-	
 	else if(p_node->key > key)
 		p_node->left = deleteNode(p_node->left, key);
 	else
 		p_node->right = deleteNode(p_node->right, key);
+
+	// recalculate current height
+	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
+
+
+	// now we test the rotation cases
+	int currentBalance = readBalance(p_node);
+
+	//left left
+	if (currentBalance > 1 && readBalance(p_node->left) >= 0) {
+		return rightRotation(p_node);
+	}
+
+	//right right
+	if (currentBalance < -1 && readBalance(p_node->right) <= 0) {
+		return leftRotation(p_node);
+	}
+
+	//right left
+	if (currentBalance < -1 && readBalance(p_node->right) > 0 ) {
+		p_node->right = rightRotation(p_node->right);
+		return leftRotation(p_node);
+	}
+
+	//left right
+	if (currentBalance > 1 && readBalance(p_node->left) < 0 ) {
+		p_node->left = leftRotation(p_node->left);
+		return rightRotation(p_node);
+	}
 
 	return p_node;
 
