@@ -35,8 +35,8 @@ t_node *createNode(int key){
 	node = malloc (sizeof(t_node));
 
 	if(!node){
-		perror("error: could not allocate node properly");
-		exit(-1);
+		perror("Error: could not allocate node properly");
+		exit(MEMORY_ERROR);
 	}
 
 	// initialize values
@@ -96,42 +96,54 @@ t_node *insertNode(t_node *p_node, int key){
 
 }
 
-int sucessor(t_node *p_node){
+int successor(t_node *p_node){
 
 	t_node *aux=p_node;
+
+	// checks if there's a node to the left
 	if(aux->left == NULL)
 		return aux->key;
 
+	// if there's a left node we walk the tree down
 	while(aux->left->left != NULL)
 		aux=aux->left;
 
+	// finds de successor's key and frees the node
 	int key = aux->left->key;
 	free(aux->left);
 	aux->left=NULL;
+
 	return key;
 
 }
 
 t_node *deleteNode(t_node *p_node, int key){
 
+	// checks if node exists
 	if (!p_node)
 		return p_node;
 
+	// checks if we find the right node
 	if(p_node->key == key){
 
+		// 2 children case or successor case 
 		if(p_node->right != NULL){
 			p_node->key = sucessor(p_node->right);
+
+			// adjusts pointer if we leave duplicates
 			if(p_node->key == p_node->right->key){
 				free(p_node->right);
 				p_node->right = NULL;
 			}
 
 		}
+		// no children case
 		else if (p_node->left == NULL)  {
 			free(p_node);
 			p_node = NULL;
 			return NULL;
 		}
+		// one left children case
 		else{
 			free(p_node);
 			*p_node = *p_node->left;
@@ -208,12 +220,15 @@ void postOrder(t_node *p_node){
 
 t_node *rightRotation(t_node *p_node){
 
+	// auxiliaries pointers
 	t_node *aux =  p_node->left;
 	t_node *aux2 = p_node->left->right; /*or simply aux->right*/
 
+	// adjusting pointers
 	p_node->left->right = p_node;
 	p_node->left=aux2;
 
+	// recalculating BFs
 	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
 	aux->bf = 1 + max(height(aux->left), height(aux->right));
 
@@ -222,13 +237,15 @@ t_node *rightRotation(t_node *p_node){
 
 t_node *leftRotation(t_node *p_node){
 
+	// auxiliaries pointers
 	t_node *aux =  p_node->right;
 	t_node *aux2 = p_node->right->left; /*or simply aux->left*/
 
+	// adjusting pointers
 	p_node->right->left = p_node;
 	p_node->right = aux2;
 
-
+	// recalculating BFs
 	p_node->bf = 1 + max(height(p_node->left), height(p_node->right));
 	aux->bf = 1 + max(height(aux->left), height(aux->right));
 

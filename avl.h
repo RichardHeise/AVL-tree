@@ -1,6 +1,9 @@
 #ifndef __AVL__
 #define __AVL__
 
+#define MEMORY_ERROR -1
+#define INVALID_OPCODE -2
+
 /*structure definition*/
 typedef struct s_node 
 {
@@ -12,7 +15,7 @@ typedef struct s_node
 
 /** function to create a node
  *  receives an int node key
- *  */ 
+ */ 
 t_node *createNode(int key);
 
 /** inserts a int key into a node
@@ -20,8 +23,15 @@ t_node *createNode(int key);
  */
 t_node *insertNode(t_node *p_node, int key);
 
-int sucessor(t_node *p_node);
+/** finds the sucessor key of a node
+ *  receives a node pointer 
+ *  returns int key of successor
+ */
+int successor(t_node *p_node);
 
+/** function to delete a node
+ *  receives a node pointer and an int key
+ */
 t_node *deleteNode(t_node *p_node, int key);
 
 /** pre order print function */

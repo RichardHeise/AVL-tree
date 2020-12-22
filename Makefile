@@ -4,7 +4,6 @@
 CC = gcc
 CFLAGS = -Wall
 
-# Compiler I/O
 OBJECTS = main.o avl.o
 BINARIES = myavl
 
