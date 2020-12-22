@@ -41,8 +41,8 @@ int main(){
 		else if (!strcmp("r",code))
 			root=deleteNode(root,key);
 		else{
-			perror("invalid operation code\n");
-			exit(-1);
+			perror("Invalid operation code\n");
+			exit(INVALID_OPCODE);
 		}
 
 	}
