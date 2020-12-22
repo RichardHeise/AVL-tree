@@ -87,7 +87,7 @@ t_node *insertNode(t_node *p_node, int key){
 	}
 
 	//left right
-	if (currentBalance > 1 && key > p_node->right->key) {
+	if (currentBalance > 1 && key > p_node->left->key) {
 		p_node->left = leftRotation(p_node->left);
 		return rightRotation(p_node);
 	}
@@ -186,13 +186,14 @@ void preOrder(t_node *p_node){
 	preOrder(p_node->right);
 }
 
-void inOrder(t_node *p_node){
+void inOrder(t_node *p_node, int h){
 
 	if(!p_node)	
 		return;
-	inOrder(p_node->left);
-	printf("%d ", p_node->key);
-	inOrder(p_node->right);
+
+	inOrder(p_node->left, h+1);
+	printf("%d,%d\n", p_node->key,h );
+	inOrder(p_node->right, h+1);
 
 }
 

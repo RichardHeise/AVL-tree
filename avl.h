@@ -28,7 +28,7 @@ t_node *deleteNode(t_node *p_node, int key);
 void preOrder(t_node *p_node);
 
 /** in order print function*/
-void inOrder(t_node *p_node);
+void inOrder(t_node *p_node, int h);
 
 /** pos order print function */
 void postOrder(t_node *p_node);
